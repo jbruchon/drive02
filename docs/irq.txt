@@ -1,0 +1,16 @@
+IRQ handler process:
+
+Store context of currently running process (context vector is precalculated)
+Run IRQ hooks
+Choose the next process to run
+Change context to the next process and run it
+
+
+
+Task PID:
+
+Active PIDs have a 2-bit priority and 2-bit status.
+Status: 3=ready, 2=blocking, 1=sleeping, and 0=free.
+Priority is ignored in the round robin scheduler.
+Stored as bits: SSPP0000, stored at $0200 to $020f
+Free processes set to zero.

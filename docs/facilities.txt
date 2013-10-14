@@ -1,0 +1,48 @@
+char:
+  byte2hex/hex2byte
+  getchar
+  putchar
+  putstring
+  strcpy
+  mkpipe
+
+math:
+  multiply8
+
+mm:
+Bank switching, relocatable ZP, caching, need to be handled here
+  malloc
+  mfree
+  memcpy
+  memset
+
+proc:
+  createpid
+  getcpid
+  killcpid
+  critical/uncritical
+  release (gives up CPU time and sleeps until next turn)
+
+file:
+Need directory support (i.e. 1581)
+  mount/umount
+  open/close/read/write
+  unlink
+
+block:
+1541/1571/1581, IDE64, REU, etc. support needed
+  bread
+  bwrite
+
+General stuff
+-------------
+Need ability to handle sleeping/blocked tasks in scheduler and process mgmt
+Processes need to be able to cleanly break
+Drivers register IRQ/NMI hooks on driver load/initialization
+Scheduler calls mm routines when switching tasks to ensure RAM/stack/ZP
+placement and banking is correctly configured to run the process
+Memory mgmt would benefit from memory prioritization, so that devices such 
+as VIC-II hi-res mode which needs to be in $2000-$3FFF are less likely to 
+have the needed memory area occupied, preventing mode switching.
+VIC-II driver should support changing VIC-II banks and text area locations 
+as needed.
