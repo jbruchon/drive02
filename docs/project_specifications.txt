@@ -1,0 +1,47 @@
+ ================================
+| drive02 Project Specifications |
+ ================================
+--------------------
+GOALS OF THE PROJECT
+--------------------
+
+* drive02 shall become the operating system of choice for 6502-based systems.
+* High throughput
+* Modularity
+
+---------------------------
+CHANGES FROM OLD OS PROJECT
+---------------------------
+
+* 65816 will NOT be targeted; its capabilities warrant its own retargeting
+  * "drive816" would have drive02 programs running in a "compatibility mode"
+
+* Limit of 8 tasks; this drastically speeds up key parts of the system:
+  * Fixed 32 ZP bytes required to store process context
+  * No ZP bytes need to be context switched
+  * Allows cutting up of the stack into 32-byte chunks
+  * Simplifies stack allocation and allows out-of-bounds stack checking
+  * Insufficient stack was left unanswered; this solves that problem
+  * malloc structures can be packed into nybbles on low RAM machines
+  * Base context on a 6502 is 7 bytes, so a simple shift-multiply can be used
+    * Leaving P/PCL/PCH on the stack further improves context switch speed
+      and shrinks context switch ZP to 32 bytes (half original size)
+
+* IRQ/NMI hooks dynamically register with the system, allowing modularity
+  * Statically linked drivers have init code added to kernel init code
+  * IRQ hooks are generated as a jump table with a hook counter
+
+* The default console output driver is dynamically chosen
+  * Referenced by its device number, goes through the device manager
+
+* Parameters are passed on the stack.
+  * Old OS used fixed ZP to pass data, but new dymanic non-contextual ZP
+    renders this method very prohibitive because ZP would require
+    recalculation either at process switch time or when a call was issued.
+
+------------
+DESIGN NOTES
+------------
+
+A chunk of custom init code will be manufactured to run initialization
+for modular components that are statically linked.

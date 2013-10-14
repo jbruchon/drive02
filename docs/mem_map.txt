@@ -1,0 +1,31 @@
+Memory map
+
+Start    End                       Description
+----------------------------------------------------------------------------
+$0000 - $0001  | Reserved due to 6510-based machines
+$0002          | Kernel temporary storage
+$0003          | IRQ handler temporary storage
+$0004          | NMI handler temporary storage
+$0005          | Number of registered IRQ hooks
+$0006          | Number of registered NMI hooks
+$0007 - $001e  | IRQ hook jump vectors (max 8)
+$001f - $002a  | NMI hook jump vectors (max 4)
+$002b - $002c  | "Big kernel lock"
+$002d - $0077  | ---- Currently not used or allocated ----
+$0078 - $007f  | Kernel reserved zero-page area
+$0080 - $00bf  | Context storage area for processes (7b + flags)
+$00c0 - $00ff  | Zero-page allocations for processes (8b each)
+$0100 - $01ff  | 65xx processor stack
+$0200 - $0207  | Process state table
+$0208          | Current task number
+$0209          | Number of running tasks
+$020a          | Context pointer cache
+$020b          | System-wide flags
+$020c          | Keyboard queue event counter
+$020d - $021c  | Keyboard queue
+$021d - $02ff  | ---- Currently not used or allocated ----
+$0300 - $03ff  | Memory manager allocation map
+$0400 - $07e7  | Commodore 64 VIC-II screen
+$07e7 - $07ff  | ---- Currently not used or allocated ----
+$0800 - $cfff  | Free memory for program use
+$d000 - $d
